@@ -1,74 +1,93 @@
 <template>
-  <div class="homepage">
-    <h1 class="text-color text-5xl font-bold text-center">The Rick and Morty Tv Series </h1>
+  <div class="homepage bg-black text-white">
+    <h1 class="title text-5xl font-bold text-center">The Rick and Morty TV Series</h1>
 
     <!-- Carousel -->
-    <div class="carousel">
-      <div class="carousel-content">
-        <div class="description">
-          <h2>Description/Storyline</h2>
-          <p>{{ showDescription }}</p>
+    <div class="carousel-container">
+      <div class="carousel">
+        <button @click="prevSlide" class="carousel-nav prev">
+          <span>&lt;</span>
+        </button>
+        <div class="carousel-content">
+          <div class="description">
+            <p>{{ showDescription }}</p>
+          </div>
+          <div class="character-carousel">
+            <img v-if="currentSlideImage" :src="currentSlideImage" alt="Rick and Morty Carousel" class="carousel-image" />
+            <div class="character-name">
+              <h2>{{ currentSlideName }}</h2>
+            </div>
+          </div>
         </div>
-        <div>
-          <img v-if="showImage" :src="showImage" alt="Rick and Morty Carousel" class="carousel-image" />
-        </div>
+        <button @click="nextSlide" class="carousel-nav next">
+          <span>&gt;</span>
+        </button>
       </div>
-      <button @click="prevSlide" class="carousel-nav prev"> <p><</p></button>
-      <button @click="nextSlide" class="carousel-nav next">></button>
     </div>
 
-    <!-- Genre -->
-    <div class="genre">
-      <h2>Genre</h2>
-      <p>{{ showGenre }}</p>
+    <!-- Show Details -->
+    <div class="show-details">
+      <div class="detail">
+        <h2>Genre</h2>
+        <p>{{ showGenre }}</p>
+      </div>
+      <div class="detail">
+        <h2>Creators</h2>
+        <p>{{ showCreators }}</p>
+      </div>
+      <div class="detail">
+        <h2>Stars</h2>
+        <p>{{ showStars }}</p>
+      </div>
+      <div class="detail">
+        <h2>Rating</h2>
+        <p><span class="fa fa-star checked text-orange-400"></span> {{ showRating }}</p>
+      </div>
     </div>
 
-    <!-- Creators -->
-    <div class="creators">
-      <h2>Creators</h2>
-      <p>{{ showCreators }}</p>
+    <!-- Characters List -->
+    <div class="characters">
+      <h2 class="text-color font-bold text-4xl text-center my-6">Characters of Rick and Morty</h2>
+      <section class="flex justify-center items-center flex-wrap p-3 gap-5">
+        <div v-for="character in characters" :key="character.id" class="character-card">
+          <router-link :to="{ name: 'Character', params: { id: character.id } }">
+            <img :src="character.image" :alt="character.name + ' Image'" class="character-image">
+            <div class="character-details">
+              <h3 class="text-xl font-bold">{{ character.name }}</h3>
+            </div>
+          </router-link>
+        </div>
+      </section>
     </div>
 
-    <!-- Stars -->
-    <div class="stars">
-      <h2>Stars</h2>
-      <p>{{ showStars }}</p>
-    </div>
-
-    <!-- Rating -->
-    <div class="rating">
-      <h2>Rating</h2>
-      <p><span class="fa fa-star checked text-orange-400"></span> {{ showRating }}</p>
-    </div>
-
-    <!-- Episodes -->
+    <!-- Episodes List -->
     <div class="episodes">
-      <h2>Episodes</h2>
-      <div class="episode-cards text-black">
+      <h2 class="text-color font-bold text-4xl text-center my-6">Episodes of Rick and Morty</h2>
+      <section class="flex justify-center items-center flex-wrap p-3 gap-5">
         <div v-for="episode in episodes" :key="episode.id" class="episode-card">
-          <h3>{{ episode.name }}</h3>
-          <p><strong>Episode:</strong> {{ episode.episode }}</p>
-          <p><strong>Air Date:</strong> {{ episode.air_date }}</p>
-          <RouterLink :to="{ name: 'EpisodePage', params: { id: episode.id } }">
-            <button class="episode-button">View Episode</button>
-          </RouterLink>
+          <router-link :to="{ name: 'EpisodePage', params: { id: episode.id } }">
+            <div class="episode-details">
+              <h3 class="text-xl font-bold">{{ episode.name }}</h3>
+              <p>Episode: <span class="font-bold">{{ episode.episode }}</span></p>
+              <p>Air Date: <span class="font-bold">{{ episode.air_date }}</span></p>
+            </div>
+          </router-link>
         </div>
-      </div>
+      </section>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      <RouterLink :to="{ name: 'EpisodePage' }">
-        <button class="bg-custom-color text-white font-bold py-4 px-6 rounded">Episode</button>
-      </RouterLink>
-      <br/><br/>
-      <RouterLink :to="{ name: 'Location' }">
-        <button class="bg-red-200 text-white font-bold py-4 px-6 rounded">Location</button>
-      </RouterLink>
-      <RouterLink :to="{ name: 'Character' }">
-        <button class="bg-red-200 text-white font-bold py-4 px-6 rounded">Character</button>
-      </RouterLink>
+    <!-- Locations List -->
+    <div class="locations">
+      <h2 class="text-color font-bold text-4xl text-center my-6">Locations of Rick and Morty</h2>
+      <section class="flex justify-center items-center flex-wrap p-3 gap-5">
+        <div v-for="location in locations" :key="location.id" class="location-card">
+          <router-link :to="{ name: 'Location', params: { id: location.id } }">
+            <div class="location-details">
+              <h3 class="text-xl font-bold">{{ location.name }}</h3>
+            </div>
+          </router-link>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -80,87 +99,126 @@ export default {
   name: 'HomePage',
   data() {
     return {
-      showImage: '',
-      showDescription: '',
-      showGenre: '',
-      showCreators: '',
-      showStars: '',
-      showRating: '',
       characters: [],
       episodes: [],
+      locations: [],
+      showDescription: 'Rick and Morty is an American adult animated science fiction sitcom created by Justin Roiland and Dan Harmon for Cartoon Network\'s nighttime programming block Adult Swim. The show follows the misadventures of cynical mad scientist Rick Sanchez and his good-hearted but fretful grandson Morty Smith, who split their time between domestic life and interdimensional adventures.',
+      showGenre: 'Sci-Fi, Comedy, Animation',
+      showCreators: 'Dan Harmon, Justin Roiland',
+      showStars: 'Justin Roiland, Chris Parnell, Spencer Grammer',
+      showRating: '9.2',
       currentSlideIndex: 0,
+      currentSlideImage: '',
+      currentSlideName: ''
     };
   },
   created() {
-    this.fetchShowData();
+    this.fetchCharacters();
     this.fetchEpisodes();
+    this.fetchLocations();
   },
   methods: {
-    async fetchShowData() {
+    async fetchCharacters() {
       try {
         const response = await axios.get('https://rickandmortyapi.com/api/character');
         this.characters = response.data.results;
-
-        if (this.characters.length > 0) {
-          this.showImage = this.characters[0].image;
-          this.showDescription = this.characters[0].name;
-        }
-
-        this.showGenre = 'Sci-Fi, Comedy, Animation';
-        this.showCreators = 'Dan Harmon, Justin Roiland';
-        this.showStars = 'Justin Roiland, Chris Parnell, Spencer Grammer';
-        this.showRating = '9.2';
+        this.setInitialSlide();
       } catch (error) {
-        console.error('Failed to fetch show data:', error);
+        console.error('Failed to fetch characters:', error);
       }
     },
     async fetchEpisodes() {
       try {
         const response = await axios.get('https://rickandmortyapi.com/api/episode');
-        this.episodes = response.data.results.slice(0, 6);
+        this.episodes = response.data.results;
       } catch (error) {
         console.error('Failed to fetch episodes:', error);
       }
     },
+    async fetchLocations() {
+      try {
+        const response = await axios.get('https://rickandmortyapi.com/api/location');
+        this.locations = response.data.results;
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+      }
+    },
+    setInitialSlide() {
+      if (this.characters.length > 0) {
+        this.currentSlideImage = this.characters[0].image;
+        this.currentSlideName = this.characters[0].name;
+      }
+    },
     nextSlide() {
       this.currentSlideIndex = (this.currentSlideIndex + 1) % this.characters.length;
-      this.showImage = this.characters[this.currentSlideIndex].image;
-      this.showDescription = this.characters[this.currentSlideIndex].name;
+      this.currentSlideImage = this.characters[this.currentSlideIndex].image;
+      this.currentSlideName = this.characters[this.currentSlideIndex].name;
     },
     prevSlide() {
       this.currentSlideIndex = (this.currentSlideIndex - 1 + this.characters.length) % this.characters.length;
-      this.showImage = this.characters[this.currentSlideIndex].image;
-      this.showDescription = this.characters[this.currentSlideIndex].name;
+      this.currentSlideImage = this.characters[this.currentSlideIndex].image;
+      this.currentSlideName = this.characters[this.currentSlideIndex].name;
     },
   },
 };
 </script>
 
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Puppies+Play&display=swap');
-.text-color {
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
   margin-bottom: 40px;
   margin-top: 20px;
+  font-family: "Playfair Display", "Cedarville Cursive", serif;
+  color: gold;
+}
 
-  font-family: "Playfair Display","Cedarville Cursive", serif;
-  color:gold;
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 40px;
 }
 
 .carousel {
   position: relative;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .carousel-content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  text-align: left;
 }
 
 .carousel-image {
-  max-width: 50%;
+  max-width: 100%;
   height: auto;
   margin-left: auto;
+  border-radius: 8px;
+}
+
+.character-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.character-name {
+  margin-top: 10px;
+  text-align: center;
 }
 
 .description {
@@ -174,59 +232,70 @@ export default {
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  border: none;
   padding: 10px;
   cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.checked{
-  color:orange;
-}
+
 .prev {
   left: 10px;
+  border: 2px white solid;
+  left: 930px;
 }
 
 .next {
   right: 10px;
+  border: 2px white solid
 }
 
-.episodes {
-  margin-top: 20px;
+.show-details {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
 }
 
-.episode-cards {
+.detail {
+  text-align: center;
+  justify-content: space-between;
+  margin: 10px
+}
+.checked {
+  color: orange;
+}
+
+.characters, .episodes, .locations {
+  margin: 20px 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
 }
 
-.episode-card {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 20px;
+.character-card, .episode-card, .location-card {
   width: 200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.character-card:hover, .episode-card:hover, .location-card:hover {
+  transform: scale(1.05);
+}
+.character-image, .episode-image, .location-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
-.episode-card h3 {
-  margin: 0;
-  font-size: 1.2em;
-}
-
-.episode-card p {
-  margin: 5px 0;
-}
-
-.episode-button {
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.character-details, .episode-details, .location-details {
   margin-top: 10px;
-}
-
-.bg-custom-color {
-  background-color: #1e90ff;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px
 }
 </style>

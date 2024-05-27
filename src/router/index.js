@@ -26,8 +26,23 @@ const routes =[
       { path: '/character',
        name: 'Character',
         component: Character
-       } // Add Character route
- 
+       }, // Add Character route
+       {
+        path: '/character/:id', // Dynamic segment for character ID
+        name: 'Character',
+        component: Character
+      },
+      {
+        path: '/episode/:id', // Dynamic segment for episode ID
+        name: 'EpisodePage',
+        component: EpisodePage
+      },
+      {
+        path:'/location/:id',
+        name:'Location',
+        component:  Location
+      }
+      
 ]
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

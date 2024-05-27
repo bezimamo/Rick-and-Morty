@@ -1,43 +1,38 @@
 <template>
   <div class="character">
-    <nav class="w-full p-2 flex justify-center items-center border-b m-3 border-[rgb(17,176,200)]">
-      <h1 class="font-bold text-5xl text-blue-300">Characters of Rick and Morty</h1>
-    </nav>
-    <section class="flex justify-center items-center flex-wrap p-3 gap-5">
-      <div v-for="character in characters" :key="character.id">
-        <CharacterCard
-          :name="character.name" 
-          :status="character.status" 
-          :species="character.species"
-          :gender="character.gender"
-          :image="character.image"
-        />
-      </div>
-    </section>
+    <div class="character-details" v-if="character">
+      <h1 class="font-bold text-3xl mb-3">{{ character.name }}</h1>
+      <img :src="character.image" :alt="character.name + ' Image'" class="character-image mb-3" />
+      <p>Status: <span class="font-bold">{{ character.status }}</span></p>
+      <p>Species: <span class="font-bold">{{ character.species }}</span></p>
+      <p>Gender: <span class="font-bold">{{ character.gender }}</span></p>
+    </div>
+    <div v-else>Loading...</div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import CharacterCard from '@/components/CharacterCard.vue';
 
 export default {
   name: 'CharacterView',
-  components: {
-    CharacterCard,
-  },
   data() {
     return {
-      characters: [],
+      character: null,
     };
   },
   created() {
-    this.load();
+    const characterId = this.$route.params.id;
+    this.loadCharacter(characterId);
   },
   methods: {
-    async load() {
-      const data = await axios.get("https://rickandmortyapi.com/api/character");
-      this.characters = data.data.results;
+    async loadCharacter(id) {
+      try {
+        const response = await axios.get(`https://rickandmortyapi.com/api/character/${id}`);
+        this.character = response.data;
+      } catch (error) {
+        console.error('Failed to fetch character:', error);
+      }
     },
   },
 };
@@ -46,7 +41,23 @@ export default {
 <style scoped>
 .character {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+}
+
+.character-details {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+}
+
+.character-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 </style>
