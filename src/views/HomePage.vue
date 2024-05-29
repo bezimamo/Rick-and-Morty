@@ -1,5 +1,5 @@
 <template>
-  <div class="homepage bg-black text-white">
+  <div class="homepage bg-gray-900 text-white">
     <h1 class="title text-5xl font-bold text-center">The Rick and Morty TV Series</h1>
 
     <!-- Carousel -->
@@ -41,7 +41,7 @@
       </div>
       <div class="detail">
         <h2>Rating</h2>
-        <p><span class="fa fa-star checked text-orange-400"></span> {{ showRating }}</p>
+        <p><span class="fa fa-star checked text-yellow-500"></span> {{ showRating }}</p>
       </div>
     </div>
 
@@ -84,6 +84,8 @@
           <router-link :to="{ name: 'Location', params: { id: location.id } }">
             <div class="location-details">
               <h3 class="text-xl font-bold">{{ location.name }}</h3>
+                            <h3 class="text-xl font-bold">{{ location.type }}</h3>
+
             </div>
           </router-link>
         </div>
@@ -91,6 +93,8 @@
     </div>
   </div>
 </template>
+
+
 
 <script>
 import axios from 'axios';
@@ -163,18 +167,19 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Puppies+Play&display=swap');
+<style scoped>@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;700&display=swap');
+
 .homepage {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Poppins', sans-serif;
 }
 
 .title {
   margin-bottom: 40px;
   margin-top: 20px;
-  font-family: "Playfair Display", "Cedarville Cursive", serif;
+  font-family: "Playfair Display", serif;
   color: gold;
 }
 
@@ -184,7 +189,7 @@ export default {
   align-items: center;
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 500px; /* Increased height for larger images */
   margin-bottom: 40px;
 }
 
@@ -204,7 +209,7 @@ export default {
 }
 
 .carousel-image {
-  max-width: 100%;
+  max-width: 100%; /* Increased width for larger images */
   height: auto;
   margin-left: auto;
   border-radius: 8px;
@@ -219,53 +224,56 @@ export default {
 .character-name {
   margin-top: 10px;
   text-align: center;
+  font-size: 1.5rem; /* Slightly larger font for names */
 }
 
 .description {
-  max-width: 45%;
+  max-width: 35%; /* Adjusted to balance with larger image */
   margin-right: 20px;
+  font-size: 1rem; /* Updated font size */
 }
 
 .carousel-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 10px;
   cursor: pointer;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid white;
 }
 
 .prev {
-  left: 10px;
-  border: 2px white solid;
-  left: 930px;
+  left: -20px; /* Adjusted position */
 }
 
 .next {
-  right: 10px;
-  border: 2px white solid
+  right: -20px; /* Adjusted position */
 }
 
 .show-details {
   display: flex;
   justify-content: space-around;
   margin-bottom: 40px;
+  width: 100%;
 }
 
 .detail {
   text-align: center;
   justify-content: space-between;
-  margin: 10px
+  margin: 10px;
+  font-size: 1.1rem; /* Slightly larger font size */
 }
+
 .checked {
-  color: orange;
+  color: yellow;
 }
 
 .characters, .episodes, .locations {
@@ -276,16 +284,20 @@ export default {
 }
 
 .character-card, .episode-card, .location-card {
-  width: 200px;
+  width: 220px; /* Slightly larger cards */
   margin: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #1a1a1a;
 }
+
 .character-card:hover, .episode-card:hover, .location-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
+
 .character-image, .episode-image, .location-image {
   width: 100%;
   height: auto;
@@ -296,6 +308,8 @@ export default {
   margin-top: 10px;
   justify-content: center;
   gap: 10px;
-  padding: 10px
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem; /* Updated font size */
 }
 </style>
