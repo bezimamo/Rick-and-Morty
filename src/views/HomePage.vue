@@ -84,17 +84,27 @@
           <router-link :to="{ name: 'Location', params: { id: location.id } }">
             <div class="location-details">
               <h3 class="text-xl font-bold">{{ location.name }}</h3>
-                            <h3 class="text-xl font-bold">{{ location.type }}</h3>
-
+              <h3 class="text-xl font-bold">{{ location.type }}</h3>
             </div>
           </router-link>
         </div>
       </section>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a class="footer-button" href="https://www.figma.com/proto/LewsJhbBppdpriPGvIW1H4/Untitled?node-id=144-4&t=idyGzmac7pXqjved-0&scaling=min-zoom&page-id=144%3A2&starting-point-node-id=144%3A4" target="_blank">
+        <i class="fab fa-figma"></i> Figma
+      </a>
+      <a class="footer-button" href="https://github.com/bezimamo/Rick-and-Morty.git" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a class="footer-button" href="mailto:bezawitmamo27@gmail.com">
+        <i class="fas fa-envelope"></i> Email
+      </a>
+    </footer>
   </div>
 </template>
-
-
 
 <script>
 import axios from 'axios';
@@ -311,5 +321,29 @@ export default {
   padding: 10px;
   text-align: center;
   font-size: 1rem; /* Updated font size */
+}
+
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-top: 1px solid #ccc;
+  background-color: #222;
+}
+
+.footer-button {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-button:hover {
+  color: gold;
 }
 </style>

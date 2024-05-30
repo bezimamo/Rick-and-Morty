@@ -24,6 +24,7 @@
       <div v-else class="loading">Loading...</div>
     </section>
   </div>
+  
 </template>
 
 <script>
