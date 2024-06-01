@@ -199,7 +199,7 @@ export default {
   align-items: center;
   position: relative;
   width: 100%;
-  height: 500px; /* Increased height for larger images */
+  height: 500px;
   margin-bottom: 40px;
 }
 
@@ -216,10 +216,11 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   text-align: left;
+  flex-wrap: wrap; /* Added to make content wrap on smaller screens */
 }
 
 .carousel-image {
-  max-width: 100%; /* Increased width for larger images */
+  max-width: 100%;
   height: auto;
   margin-left: auto;
   border-radius: 8px;
@@ -234,13 +235,13 @@ export default {
 .character-name {
   margin-top: 10px;
   text-align: center;
-  font-size: 1.5rem; /* Slightly larger font for names */
+  font-size: 1.5rem;
 }
 
 .description {
-  max-width: 35%; /* Adjusted to balance with larger image */
+  max-width: 35%;
   margin-right: 20px;
-  font-size: 1rem; /* Updated font size */
+  font-size: 1rem;
 }
 
 .carousel-nav {
@@ -261,11 +262,11 @@ export default {
 }
 
 .prev {
-  left: -20px; /* Adjusted position */
+  left: -20px;
 }
 
 .next {
-  right: -20px; /* Adjusted position */
+  right: -20px;
 }
 
 .show-details {
@@ -273,13 +274,14 @@ export default {
   justify-content: space-around;
   margin-bottom: 40px;
   width: 100%;
+  flex-wrap: wrap; /* Added to make details wrap on smaller screens */
 }
 
 .detail {
   text-align: center;
   justify-content: space-between;
   margin: 10px;
-  font-size: 1.1rem; /* Slightly larger font size */
+  font-size: 1.1rem;
 }
 
 .checked {
@@ -294,7 +296,7 @@ export default {
 }
 
 .character-card, .episode-card, .location-card {
-  width: 220px; /* Slightly larger cards */
+  width: 220px;
   margin: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -320,7 +322,7 @@ export default {
   gap: 10px;
   padding: 10px;
   text-align: center;
-  font-size: 1rem; /* Updated font size */
+  font-size: 1rem;
 }
 
 .footer {
@@ -345,5 +347,64 @@ export default {
 
 .footer-button:hover {
   color: gold;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .description {
+    max-width: 50%; /* Adjust for tablet */
+  }
+  
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: auto; /* Allow height to adjust for smaller screens */
+  }
+  
+  .description {
+    max-width: 100%; /* Full width for phone */
+    margin-right: 0;
+    margin-bottom: 20px; /* Add space between description and image */
+  }
+  
+  .carousel-content {
+    flex-direction: column; /* Stack content vertically */
+    align-items: center;
+  }
+  
+  .carousel-image {
+    margin: 0 auto; /* Center image */
+  }
+  
+  .show-details {
+    flex-direction: column; /* Stack details vertically */
+    align-items: center;
+  }
+  
+  .carousel-nav {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.5rem; /* Smaller title for phone */
+  }
+  
+  .character-card, .episode-card, .location-card {
+    width: 100%; /* Full width for cards */
+  }
+  
+  .footer-button {
+    font-size: 1rem; /* Smaller font for footer buttons */
+  }
 }
 </style>
